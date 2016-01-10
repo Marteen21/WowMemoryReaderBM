@@ -20,6 +20,7 @@ namespace WowMemoryReaderBM.Constants {
             Mana = 0x5C,
             MaxMana = 0x74,
             TargetGuid64 = 0x40,
+            Agility = 0x130,
 
         }
         internal enum Globals : uint {

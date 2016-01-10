@@ -11,32 +11,31 @@ namespace WowMemoryReaderBM {
         const string PROCESS_WINDOW_TITLE = "World of Warcraft";
         public static BlackMagic wow;
         public static GameObject FirstObject;
-        public static GameObject PlayerObject;
+        public static ObjectStorage PlayerObject;
         private static uint ObjMgr;
         
 
         static void Main(string[] args) {
             wow = new BlackMagic();
             wow.OpenProcessAndThread(SProcess.GetProcessFromWindowTitle(PROCESS_WINDOW_TITLE));
-            PlayerObject = new GameObject(wow.MainModule.BaseAddress, new uint[] { 0x00A42788, 0x9C, 0x5C });
-            GameObject Player2Object = new GameObject(wow.MainModule.BaseAddress, new uint[] { 0x00a70c50, 0x38, 0x24 });
+            PlayerObject = new ObjectStorage(wow.MainModule.BaseAddress, new uint[] { 0x00A42788, 0x9C, 0x5C });
+            ObjectStorage Player2Object = new ObjectStorage(wow.MainModule.BaseAddress, new uint[] { 0x00a70c50, 0x38, 0x24 });
             ObjMgr = wow.ReadUInt(wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Offsets.ObjectManager.CurMgrPointer)+ (uint)Offsets.ObjectManager.CurMgrOffset);
-            FirstObject = new GameObject();
-            FirstObject.BaseAddress = wow.ReadUInt(ObjMgr + (uint)Offsets.ObjectManager.FirstObject);
-            PlayerObject.PrintDescriptorsToConsol();
-            Player2Object.PrintDescriptorsToConsol();
-            FirstObject.PrintDescriptorsToConsol();
+            Console.WriteLine(ObjMgr);
+            FirstObject = new GameObject(wow.ReadUInt(ObjMgr+(uint)Offsets.ObjectManager.FirstObject));
+            Console.WriteLine(FirstObject.BaseAddress);
+            Console.WriteLine("0x{0:X}",FirstObject.Guid);
 
-            Console.WriteLine(Masker.Guid2UnitID(PlayerObject.Targetguid));
-            GameObject TargetObject = new GameObject();
+            //Console.WriteLine(Masker.Guid2UnitID(PlayerObject.Targetguid));
+            ObjectStorage TargetObject = new ObjectStorage();
             TargetObject.Guid = PlayerObject.Targetguid;
             TargetObject.SetObjectBaseByGuid();
-            TargetObject.PrintDescriptorsToConsol();
-            Offsets.PrintGlobalstoConsole();
+            ObjectStorage Bela = new ObjectStorage();
+            Bela.BaseAddress = wow.ReadUInt(TargetObject.BaseAddress + 0xC)+0x10;
+            Bela.PrintDescriptorsToConsole();
+            //TargetObject.PrintDescriptorsToConsole();
+            //Offsets.PrintGlobalstoConsole();
             Console.ReadLine();
-        }
-        public static void mask(UInt64 a,UInt64 b) {
-            Console.WriteLine(a & b);
         }
     }
 }
