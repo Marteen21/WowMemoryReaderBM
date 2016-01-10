@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\Masker.cs" />
     <Compile Include="Constants\Offsets.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Program.cs" />

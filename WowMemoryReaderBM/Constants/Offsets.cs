@@ -11,7 +11,7 @@ namespace WowMemoryReaderBM.Constants {
             CurMgrOffset = 0x463C,
             NextObject = 0x3C,
             FirstObject = 0xC0,
-            LocalGUID = 0x30
+            LocalGUID = 0xC8
         }
         internal enum descriptors : uint {
             Level = 0xB0,

@@ -8,8 +8,7 @@ using WowMemoryReaderBM.Constants;
 using WowMemoryReaderBM;
 namespace WowMemoryReaderBM.Objects {
     class GameObject {
-        private UInt32 guid;
-        private UInt64 guid2;
+        private UInt64 guid;
         private uint baseAddress;
         private UInt64 targetguid;
 
@@ -23,16 +22,6 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
-        public uint Guid {
-            get {
-                return guid;
-            }
-
-            set {
-                guid = value;
-            }
-        }
-
         public UInt64 Targetguid {
             get {
                 return targetguid;
@@ -43,25 +32,23 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
-        public ulong Guid2 {
+        public ulong Guid {
             get {
-                return guid2;
+                return guid;
             }
 
             set {
-                guid2 = value;
+                guid = value;
             }
         }
 
         public GameObject() {
-            this.guid = 0;
-            this.Guid2 = 0;
-            this.baseAddress = 0;
-            this.targetguid = 0;
+            this.Guid = 0;
+            this.BaseAddress = 0;
+            this.Targetguid = 0;
         }
         public GameObject(IntPtr gamebase, uint[] offsets) {
-            this.guid = 0;
-            this.targetguid = 0;
+            this.Targetguid = 0;
             ///
             uint tempaddress = (uint)gamebase;
             foreach (uint offset in offsets) {
@@ -75,16 +62,16 @@ namespace WowMemoryReaderBM.Objects {
             GameObject TempObject = new GameObject();
             TempObject.BaseAddress = Program.FirstObject.baseAddress;
             while (TempObject.BaseAddress != 0) {//Iterate through memory to find the matching guid
-                TempObject.Guid = Program.wow.ReadUInt(TempObject.BaseAddress + (uint)Offsets.ObjectManager.LocalGUID);
+                TempObject.Guid = Program.wow.ReadUInt64(TempObject.BaseAddress + (uint)Offsets.ObjectManager.LocalGUID);
                 if (TempObject.Guid == this.guid) {
                     Console.WriteLine("FOUND IT");
-                    this.BaseAddress = TempObject.BaseAddress+4556-0x58;
+                    this.BaseAddress = TempObject.BaseAddress;
                     return;
                 }
                 else {
                     TempObject.BaseAddress = Program.wow.ReadUInt(TempObject.BaseAddress + (uint)Offsets.ObjectManager.NextObject);
                 }
-                Console.WriteLine(TempObject.BaseAddress.ToString().PadRight(20) + TempObject.Guid);
+                Console.WriteLine(TempObject.BaseAddress.ToString().PadRight(20) + "0x{0:X}",TempObject.Guid);
             }
         }
         public void PrintDescriptorsToConsol() {
@@ -98,7 +85,7 @@ namespace WowMemoryReaderBM.Objects {
             foreach (Offsets.descriptors enumValue in Enum.GetValues(typeof(Offsets.descriptors))) {
                 try {
                     if (enumValue.ToString().Contains("64")) {
-                        Console.WriteLine(enumValue.ToString().PadRight(20) + (Program.wow.ReadUInt64(this.baseAddress + (uint)enumValue)).ToString().PadRight(15) + "0x{0:X}", this.baseAddress + enumValue);
+                        Console.WriteLine(enumValue.ToString().PadRight(20) + String.Format("0x{0:X}",Program.wow.ReadUInt64(this.baseAddress + (uint)enumValue)).PadRight(30) + "0x{0:X}", this.baseAddress + enumValue);
                     }
                     else {
                         Console.WriteLine(enumValue.ToString().PadRight(20) + (Program.wow.ReadUInt(this.baseAddress + (uint)enumValue)).ToString().PadRight(15) + "0x{0:X}", this.baseAddress + enumValue);
