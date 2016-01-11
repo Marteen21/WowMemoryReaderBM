@@ -23,11 +23,30 @@ namespace WowMemoryReaderBM.Constants {
             Agility = 0x130,
 
         }
+        internal enum buffs : uint {
+            nextbuff = 0x8,
+
+        }
         internal enum gear : uint {
-            shirt = 0x664,
             weaponmain = 0x6c4,
             weaponranged = 0x6d4,
+            weaponoffhand = 0xd74,
             helmet = 0xcf4,
+            neck = 0x654,
+            shoulder = 0xd04,
+            back = 0xd64,
+            chest = 0xd14,
+            shirt = 0x664,
+            tabard = 0xd84,
+            wrist = 0xd34,
+            gloves = 0x694,
+            waist = 0x674,
+            leggings =0xd24,
+            boots = 0x684,
+            ring1 = 0xd44,
+            ring2 = 0x6a4,
+            trinket1 = 0x6b4,
+            trinket2 = 0xd54,
 
         }
         internal enum Globals : uint {
@@ -65,22 +84,6 @@ namespace WowMemoryReaderBM.Constants {
             TotalGuildMembers = 0xB35ECC,
             GuildRosterInfoBase = 0xB35F64
         }
-        public static void PrintGlobalstoConsole() {
-            foreach (Offsets.Globals enumValue in Enum.GetValues(typeof(Offsets.Globals))) {
-                try {
-                    if (enumValue.ToString().Contains("GUID")) {
-                        Console.WriteLine(enumValue.ToString().PadRight(30) + String.Format("0x{0:X}", Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)enumValue)).PadRight(30) + "0x{0:X}", (uint)Program.wow.MainModule.BaseAddress + enumValue);
-                    }
-                    else if(enumValue.ToString().Contains("Name") || enumValue.ToString().Contains("Text")){
-                        Console.WriteLine(enumValue.ToString().PadRight(30) + Program.wow.ReadASCIIString(((uint)Program.wow.MainModule.BaseAddress + (uint)enumValue),64).PadRight(30) + "0x{0:X}", (uint)Program.wow.MainModule.BaseAddress + enumValue);
-                    }
-                    else {
-                        Console.WriteLine(enumValue.ToString().PadRight(30) + (Program.wow.ReadUInt((uint)Program.wow.MainModule.BaseAddress + (uint)enumValue)).ToString().PadRight(30) + "0x{0:X}", (uint)Program.wow.MainModule.BaseAddress + enumValue);
-                    }
-
-                }
-                catch { }
-            }
-        }
+       
     }
 }

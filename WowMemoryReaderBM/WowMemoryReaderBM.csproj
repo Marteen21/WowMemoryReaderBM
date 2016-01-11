@@ -66,8 +66,9 @@
   <ItemGroup>
     <Compile Include="Constants\Masker.cs" />
     <Compile Include="Constants\Offsets.cs" />
+    <Compile Include="Extractor.cs" />
+    <Compile Include="Models\Unit.cs" />
     <Compile Include="Objects\GameObject.cs" />
-    <Compile Include="Objects\ObjectStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
