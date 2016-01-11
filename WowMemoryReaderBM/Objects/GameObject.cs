@@ -10,6 +10,7 @@ namespace WowMemoryReaderBM.Objects {
         private uint baseAddress;
         private UInt64 guid;
         private uint objectStorageAddress;
+        private uint buffAddress;
 
         public uint BaseAddress {
             get {
@@ -42,6 +43,16 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
+        public uint BuffAddress {
+            get {
+                return buffAddress;
+            }
+
+            set {
+                buffAddress = value;
+            }
+        }
+
         public GameObject() {
             this.BaseAddress = 0;
             this.Guid = 0;
@@ -52,6 +63,7 @@ namespace WowMemoryReaderBM.Objects {
             this.BaseAddress = baddr;
             this.Guid = Program.wow.ReadUInt64(baddr + (uint)Offsets.ObjectManager.LocalGUID);
             this.ObjectStorageAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
+            this.BuffAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
 
         }
         public GameObject(UInt64 gid) { //Constructor from GUID
@@ -59,6 +71,7 @@ namespace WowMemoryReaderBM.Objects {
             if (gid == 0) {     //If GUID zero, return blank Object
                 this.BaseAddress = 0;
                 this.ObjectStorageAddress = 0;
+                this.BuffAddress = 0;
                 return;
             }
             else {  //Iterate through the objects (linked list) from first object till the GUID matches
@@ -70,6 +83,7 @@ namespace WowMemoryReaderBM.Objects {
                         if (TempObject.Guid == this.guid) {
                             this.BaseAddress = TempObject.BaseAddress;
                             this.ObjectStorageAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
+                            this.BuffAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
                             return;
                         }
                         else {
@@ -80,6 +94,7 @@ namespace WowMemoryReaderBM.Objects {
                 catch {
                     this.BaseAddress = 0;
                     this.ObjectStorageAddress = 0;
+                    this.buffAddress = 0;
                     return;
                 }
             }

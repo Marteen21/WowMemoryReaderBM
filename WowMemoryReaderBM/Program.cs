@@ -32,7 +32,9 @@ namespace WowMemoryReaderBM {
             Extractor.PrintBuffData(TargetObject);
 
 
+
             Console.ReadLine();
         }
+        
     }
 }
