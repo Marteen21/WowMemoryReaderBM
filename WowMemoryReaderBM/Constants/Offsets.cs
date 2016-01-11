@@ -23,30 +23,33 @@ namespace WowMemoryReaderBM.Constants {
             Agility = 0x130,
 
         }
-        internal enum buffs : uint {
-            nextbuff = 0x8,
+        internal enum buffs : uint { //from baseaddress
+            buff1 = 0xe98,
+            buff2 = 0xea0,
+            buff3 = 0xea8,
+            buff4 = 0xeb0,
 
         }
-        internal enum gear : uint {
+        internal enum gear : uint { //from storageaddress
             weaponmain = 0x6c4,
             weaponranged = 0x6d4,
-            weaponoffhand = 0xd74,
-            helmet = 0xcf4,
+            weaponoffhand = 0x6cc,
+            helmet = 0x64c,
             neck = 0x654,
-            shoulder = 0xd04,
-            back = 0xd64,
-            chest = 0xd14,
+            shoulder = 0x65c,
+            back = 0x6bc,
+            chest = 0x66c,
             shirt = 0x664,
-            tabard = 0xd84,
-            wrist = 0xd34,
+            tabard = 0x6dc,
+            wrist = 0x68c,
             gloves = 0x694,
             waist = 0x674,
-            leggings =0xd24,
+            leggings =0x67c,
             boots = 0x684,
-            ring1 = 0xd44,
+            ring1 = 0x69c,
             ring2 = 0x6a4,
             trinket1 = 0x6b4,
-            trinket2 = 0xd54,
+            trinket2 = 0x6ac,
 
         }
         internal enum Globals : uint {

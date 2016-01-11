@@ -91,6 +91,25 @@ namespace WowMemoryReaderBM {
             }
             Console.WriteLine("//////".PadRight(paddistance / 2) + "Storage Printing END" + "//////".PadLeft(paddistance / 2));
         }
+        public static void PrintBuffData(GameObject go) {
+            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing START" + "//////".PadLeft(paddistance / 2));
+            foreach (Offsets.buffs enumValue in Enum.GetValues(typeof(Offsets.buffs))) {
+                try {
+                    if (enumValue.ToString().Contains("64")) {
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("0x{0:X}", Program.wow.ReadUInt64(go.BaseAddress + (uint)enumValue)));
+                    }
+                    else {
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("{0}", Program.wow.ReadUInt(go.BaseAddress + (uint)enumValue)));
+                    }
+
+                }
+                catch {
+                    Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing ERROR" + "//////".PadLeft(paddistance / 2));
+                }
+            }
+            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing END" + "//////".PadLeft(paddistance / 2));
+        }
+
     }
 }
 

@@ -29,6 +29,7 @@ namespace WowMemoryReaderBM {
             Extractor.PrintGlobals();
             Extractor.PrintStorageGear(TargetObject);
             Extractor.PrintGameObjectData(TargetObject);
+            Extractor.PrintBuffData(TargetObject);
 
 
             Console.ReadLine();
