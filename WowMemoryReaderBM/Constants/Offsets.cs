@@ -23,6 +23,13 @@ namespace WowMemoryReaderBM.Constants {
             Agility = 0x130,
 
         }
+        internal enum gear : uint {
+            shirt = 0x664,
+            weaponmain = 0x6c4,
+            weaponranged = 0x6d4,
+            helmet = 0xcf4,
+
+        }
         internal enum Globals : uint {
             PlayerName = 0x9BE820,
             CurrentRealm = 0x9BE9AE,
