@@ -29,11 +29,14 @@ namespace WowMemoryReaderBM {
             Extractor.PrintGlobals();
             Extractor.PrintStorageGear(TargetObject);
             Extractor.PrintGameObjectData(TargetObject);
-            Extractor.PrintBuffData(TargetObject);
+            while (true) {
+                Extractor.PrintBuffData(TargetObject);
+                string b = Console.ReadLine();
+                if (b == "exit") {
+                    break;
+                }
+            }
 
-
-
-            Console.ReadLine();
         }
         
     }

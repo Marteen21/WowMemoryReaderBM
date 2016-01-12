@@ -23,13 +23,6 @@ namespace WowMemoryReaderBM.Constants {
             Agility = 0x130,
 
         }
-        internal enum buffs : uint { //from baseaddress
-            buff1 = 0xe98,
-            buff2 = 0xea0,
-            buff3 = 0xea8,
-            buff4 = 0xeb0,
-
-        }
         internal enum gear : uint { //from storageaddress
             weaponmain = 0x6c4,
             weaponranged = 0x6d4,

@@ -103,6 +103,16 @@ namespace WowMemoryReaderBM {
             Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing STOP" + "//////".PadLeft(paddistance / 2));
 
         }
+        public static void PrintBuffsData(GameObject go) {
+            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing START" + "//////".PadLeft(paddistance / 2));
+            uint temp = 1;
+            for(uint i = 0;i < 1000;i++) {
+                temp = Program.wow.ReadUInt(go.BuffAddress + (0x08 * i));
+                Console.WriteLine(temp);
+            }
+            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing STOP" + "//////".PadLeft(paddistance / 2));
+
+        }
         public static void PrintPointers(GameObject go) {
             uint temp = 0;
             for(int i=0;i<10000;i++) {
