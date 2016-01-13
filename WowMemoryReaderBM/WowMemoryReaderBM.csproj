@@ -51,11 +51,22 @@
     <Reference Include="BlackMagic">
       <HintPath>..\..\..\Refs\BlackMagic.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="fasmdll_managed">
       <HintPath>..\..\..\Refs\fasmdll_managed.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +77,24 @@
   <ItemGroup>
     <Compile Include="Constants\Masker.cs" />
     <Compile Include="Constants\Offsets.cs" />
+    <Compile Include="Database\spells.cs">
+      <DependentUpon>wowDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\wowDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>wowDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\wowDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>wowDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\wowDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>wowDBModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Extractor.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Objects\GameObject.cs" />
@@ -74,6 +103,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="Database\wowDBModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>wowDBModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Database\wowDBModel.edmx.diagram">
+      <DependentUpon>wowDBModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -86,6 +123,22 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Database\wowDBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>wowDBModel.edmx</DependentUpon>
+      <LastGenOutput>wowDBModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Database\wowDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>wowDBModel.edmx</DependentUpon>
+      <LastGenOutput>wowDBModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

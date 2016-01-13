@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WowMemoryReaderBM.Objects;
 using WowMemoryReaderBM.Constants;
+using WowMemoryReaderBM.Database;
 namespace WowMemoryReaderBM {
     class Extractor {
         private static int paddistance = 30;
@@ -82,8 +83,9 @@ namespace WowMemoryReaderBM {
             try {
                 Console.WriteLine("BaseAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BaseAddress));
                 Console.WriteLine("StorageAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.ObjectStorageAddress));
+                Console.WriteLine("BuffAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BuffAddress));
                 Console.WriteLine("GUID: ".PadRight(paddistance) + String.Format("0x{0:X}", go.Guid));
-
+                
 
             }
             catch {
@@ -91,33 +93,25 @@ namespace WowMemoryReaderBM {
             }
             Console.WriteLine("//////".PadRight(paddistance / 2) + "OBJECT Printing END" + "//////".PadLeft(paddistance / 2));
         }
-        public static void PrintBuffData(GameObject go) {
-            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing START" + "//////".PadLeft(paddistance / 2));
-            uint temp = 1;
-            uint i = 0;
-            while (temp != 0) {
-                temp = Program.wow.ReadUInt(go.BuffAddress + (0x08 * i));
-                i++;
-                Console.WriteLine(temp);
+        public static void PrintBuffs(GameObject go) {
+            Console.WriteLine("TOP KEK");
+            foreach(spells s in go.Buffs) {
+                Console.WriteLine(s.Name + "  " + s.AuraDescription);
             }
-            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing STOP" + "//////".PadLeft(paddistance / 2));
 
         }
-        public static void PrintBuffsData(GameObject go) {
-            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing START" + "//////".PadLeft(paddistance / 2));
-            uint temp = 1;
-            for(uint i = 0;i < 1000;i++) {
-                temp = Program.wow.ReadUInt(go.BuffAddress + (0x08 * i));
-                Console.WriteLine(temp);
-            }
-            Console.WriteLine("//////".PadRight(paddistance / 2) + "Buff Printing STOP" + "//////".PadLeft(paddistance / 2));
 
-        }
         public static void PrintPointers(GameObject go) {
+            uint goal=0x2d976620;
+            uint goal2 = 0x25976710;
+            uint goal3 = 0x2597683c;
             uint temp = 0;
             for(int i=0;i<10000;i++) {
                 temp = Program.wow.ReadUInt(go.BaseAddress + (uint)(i));
-                if (temp > 0x1c000000 && temp<0x1d000000) {
+                //if (temp > goal-0x1000 && temp<goal+0x1000) {
+                //    Console.WriteLine(String.Format("0x{0:X}", i) + "    " + String.Format("0x{0:X}", temp));
+                //}
+                if (temp != 0) {
                     Console.WriteLine(String.Format("0x{0:X}", i) + "    " + String.Format("0x{0:X}", temp));
                 }
             }

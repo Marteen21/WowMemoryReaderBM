@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="wowDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="spells">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="field1" Type="int" />
+          <Property Name="Attributes" Type="int" />
+          <Property Name="AttributesEx" Type="int" />
+          <Property Name="AttributesExB" Type="int" />
+          <Property Name="AttributesExC" Type="int" />
+          <Property Name="AttributesExD" Type="int" />
+          <Property Name="AttributesExE" Type="int" />
+          <Property Name="AttributesExF" Type="int" />
+          <Property Name="AttributesExG" Type="int" />
+          <Property Name="AttributesExH" Type="int" />
+          <Property Name="field11" Type="int" />
+          <Property Name="CastTimesID" Type="int" />
+          <Property Name="DurationID" Type="int" />
+          <Property Name="PowerID" Type="int" />
+          <Property Name="RangeID" Type="int" />
+          <Property Name="Speed" Type="float" />
+          <Property Name="VisualID1" Type="int" />
+          <Property Name="VisualID2" Type="int" />
+          <Property Name="IconID1" Type="int" />
+          <Property Name="IconID2" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="127" />
+          <Property Name="NameSubtext" Type="varchar" MaxLength="36" />
+          <Property Name="Description" Type="varchar" MaxLength="1444" />
+          <Property Name="AuraDescription" Type="varchar" MaxLength="393" />
+          <Property Name="SchoolMask" Type="int" />
+          <Property Name="RuneCostID" Type="int" />
+          <Property Name="MissileID" Type="int" />
+          <Property Name="DescriptionVariablesID" Type="int" />
+          <Property Name="DifficultyID" Type="int" />
+          <Property Name="field30" Type="float" />
+          <Property Name="ScalingID" Type="int" />
+          <Property Name="AuraOptionsID" Type="int" />
+          <Property Name="AuraRestrictionsID" Type="int" />
+          <Property Name="CastingRequirementsID" Type="int" />
+          <Property Name="CategoriesID" Type="int" />
+          <Property Name="ClassOptionsID" Type="int" />
+          <Property Name="CooldownsID" Type="int" />
+          <Property Name="field38" Type="int" />
+          <Property Name="EquippedItemsID" Type="int" />
+          <Property Name="InterruptsID" Type="int" />
+          <Property Name="LevelsID" Type="int" />
+          <Property Name="PowerID2" Type="int" />
+          <Property Name="ReagentsID" Type="int" />
+          <Property Name="ShapeshiftID" Type="int" />
+          <Property Name="TargetRestrictionsID" Type="int" />
+          <Property Name="TotemsID" Type="int" />
+          <Property Name="field47" Type="int" />
+        </EntityType>
+        <EntityContainer Name="wowDBModelStoreContainer">
+          <EntitySet Name="spells" EntityType="Self.spells" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="wowDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="spells">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="field1" Type="Int32" />
+          <Property Name="Attributes" Type="Int32" />
+          <Property Name="AttributesEx" Type="Int32" />
+          <Property Name="AttributesExB" Type="Int32" />
+          <Property Name="AttributesExC" Type="Int32" />
+          <Property Name="AttributesExD" Type="Int32" />
+          <Property Name="AttributesExE" Type="Int32" />
+          <Property Name="AttributesExF" Type="Int32" />
+          <Property Name="AttributesExG" Type="Int32" />
+          <Property Name="AttributesExH" Type="Int32" />
+          <Property Name="field11" Type="Int32" />
+          <Property Name="CastTimesID" Type="Int32" />
+          <Property Name="DurationID" Type="Int32" />
+          <Property Name="PowerID" Type="Int32" />
+          <Property Name="RangeID" Type="Int32" />
+          <Property Name="Speed" Type="Double" />
+          <Property Name="VisualID1" Type="Int32" />
+          <Property Name="VisualID2" Type="Int32" />
+          <Property Name="IconID1" Type="Int32" />
+          <Property Name="IconID2" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="127" FixedLength="false" Unicode="false" />
+          <Property Name="NameSubtext" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="1444" FixedLength="false" Unicode="false" />
+          <Property Name="AuraDescription" Type="String" MaxLength="393" FixedLength="false" Unicode="false" />
+          <Property Name="SchoolMask" Type="Int32" />
+          <Property Name="RuneCostID" Type="Int32" />
+          <Property Name="MissileID" Type="Int32" />
+          <Property Name="DescriptionVariablesID" Type="Int32" />
+          <Property Name="DifficultyID" Type="Int32" />
+          <Property Name="field30" Type="Double" />
+          <Property Name="ScalingID" Type="Int32" />
+          <Property Name="AuraOptionsID" Type="Int32" />
+          <Property Name="AuraRestrictionsID" Type="Int32" />
+          <Property Name="CastingRequirementsID" Type="Int32" />
+          <Property Name="CategoriesID" Type="Int32" />
+          <Property Name="ClassOptionsID" Type="Int32" />
+          <Property Name="CooldownsID" Type="Int32" />
+          <Property Name="field38" Type="Int32" />
+          <Property Name="EquippedItemsID" Type="Int32" />
+          <Property Name="InterruptsID" Type="Int32" />
+          <Property Name="LevelsID" Type="Int32" />
+          <Property Name="PowerID2" Type="Int32" />
+          <Property Name="ReagentsID" Type="Int32" />
+          <Property Name="ShapeshiftID" Type="Int32" />
+          <Property Name="TargetRestrictionsID" Type="Int32" />
+          <Property Name="TotemsID" Type="Int32" />
+          <Property Name="field47" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="wowDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="spells" EntityType="Self.spells" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="wowDBModelStoreContainer" CdmEntityContainer="wowDBEntities">
+          <EntitySetMapping Name="spells">
+            <EntityTypeMapping TypeName="wowDBModel.spells">
+              <MappingFragment StoreEntitySet="spells">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="field1" ColumnName="field1" />
+                <ScalarProperty Name="Attributes" ColumnName="Attributes" />
+                <ScalarProperty Name="AttributesEx" ColumnName="AttributesEx" />
+                <ScalarProperty Name="AttributesExB" ColumnName="AttributesExB" />
+                <ScalarProperty Name="AttributesExC" ColumnName="AttributesExC" />
+                <ScalarProperty Name="AttributesExD" ColumnName="AttributesExD" />
+                <ScalarProperty Name="AttributesExE" ColumnName="AttributesExE" />
+                <ScalarProperty Name="AttributesExF" ColumnName="AttributesExF" />
+                <ScalarProperty Name="AttributesExG" ColumnName="AttributesExG" />
+                <ScalarProperty Name="AttributesExH" ColumnName="AttributesExH" />
+                <ScalarProperty Name="field11" ColumnName="field11" />
+                <ScalarProperty Name="CastTimesID" ColumnName="CastTimesID" />
+                <ScalarProperty Name="DurationID" ColumnName="DurationID" />
+                <ScalarProperty Name="PowerID" ColumnName="PowerID" />
+                <ScalarProperty Name="RangeID" ColumnName="RangeID" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="VisualID1" ColumnName="VisualID1" />
+                <ScalarProperty Name="VisualID2" ColumnName="VisualID2" />
+                <ScalarProperty Name="IconID1" ColumnName="IconID1" />
+                <ScalarProperty Name="IconID2" ColumnName="IconID2" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NameSubtext" ColumnName="NameSubtext" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AuraDescription" ColumnName="AuraDescription" />
+                <ScalarProperty Name="SchoolMask" ColumnName="SchoolMask" />
+                <ScalarProperty Name="RuneCostID" ColumnName="RuneCostID" />
+                <ScalarProperty Name="MissileID" ColumnName="MissileID" />
+                <ScalarProperty Name="DescriptionVariablesID" ColumnName="DescriptionVariablesID" />
+                <ScalarProperty Name="DifficultyID" ColumnName="DifficultyID" />
+                <ScalarProperty Name="field30" ColumnName="field30" />
+                <ScalarProperty Name="ScalingID" ColumnName="ScalingID" />
+                <ScalarProperty Name="AuraOptionsID" ColumnName="AuraOptionsID" />
+                <ScalarProperty Name="AuraRestrictionsID" ColumnName="AuraRestrictionsID" />
+                <ScalarProperty Name="CastingRequirementsID" ColumnName="CastingRequirementsID" />
+                <ScalarProperty Name="CategoriesID" ColumnName="CategoriesID" />
+                <ScalarProperty Name="ClassOptionsID" ColumnName="ClassOptionsID" />
+                <ScalarProperty Name="CooldownsID" ColumnName="CooldownsID" />
+                <ScalarProperty Name="field38" ColumnName="field38" />
+                <ScalarProperty Name="EquippedItemsID" ColumnName="EquippedItemsID" />
+                <ScalarProperty Name="InterruptsID" ColumnName="InterruptsID" />
+                <ScalarProperty Name="LevelsID" ColumnName="LevelsID" />
+                <ScalarProperty Name="PowerID2" ColumnName="PowerID2" />
+                <ScalarProperty Name="ReagentsID" ColumnName="ReagentsID" />
+                <ScalarProperty Name="ShapeshiftID" ColumnName="ShapeshiftID" />
+                <ScalarProperty Name="TargetRestrictionsID" ColumnName="TargetRestrictionsID" />
+                <ScalarProperty Name="TotemsID" ColumnName="TotemsID" />
+                <ScalarProperty Name="field47" ColumnName="field47" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

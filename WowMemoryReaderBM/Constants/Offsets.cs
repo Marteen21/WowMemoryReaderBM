@@ -14,6 +14,7 @@ namespace WowMemoryReaderBM.Constants {
             LocalGUID = 0xC8
         }
         internal enum descriptors : uint {
+            Class = 0x45,
             Level = 0xB0,
             Health = 0x58,
             MaxHealth = 0x70,
