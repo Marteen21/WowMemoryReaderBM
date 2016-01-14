@@ -12,7 +12,8 @@ namespace WowMemoryReaderBM.Objects {
         private UInt64 guid;
         private uint objectStorageAddress;
         private uint buffAddress;
-        private List<spells> buffs;
+        //private List<spells> buffs;
+        private List<uint> buffIDs;
 
         public uint BaseAddress {
             get {
@@ -55,18 +56,31 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
-        public List<spells> Buffs
+        public List<uint> BuffIDs
         {
             get
             {
-                return buffs;
+                return buffIDs;
             }
 
             set
             {
-                buffs = value;
+                buffIDs = value;
             }
         }
+
+        //public List<spells> Buffs
+        //{
+        //    get
+        //    {
+        //        return buffs;
+        //    }
+
+        //    set
+        //    {
+        //        buffs = value;
+        //    }
+        //}
 
         public GameObject() {
             this.BaseAddress = 0;
@@ -79,8 +93,9 @@ namespace WowMemoryReaderBM.Objects {
             this.Guid = Program.wow.ReadUInt64(baddr + (uint)Offsets.ObjectManager.LocalGUID);
             this.ObjectStorageAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
             this.BuffAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
+            this.BuffIDs = new List<uint>();
             //this.BuffAddress = this.baseAddress + 0xe98;
-            this.Buffs = new List<spells>();
+            //this.Buffs = new List<spells>();
         }
         public GameObject(UInt64 gid) { //Constructor from GUID
             this.Guid = gid;
@@ -101,7 +116,8 @@ namespace WowMemoryReaderBM.Objects {
                             this.ObjectStorageAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
                             this.BuffAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
                             //this.BuffAddress = this.baseAddress + 0xe98;
-                            this.Buffs = new List<spells>();
+                            //this.Buffs = new List<spells>();
+                            this.BuffIDs = new List<uint>();
                             return;
                         }
                         else {
@@ -113,22 +129,36 @@ namespace WowMemoryReaderBM.Objects {
                     this.BaseAddress = 0;
                     this.ObjectStorageAddress = 0;
                     this.buffAddress = 0;
-                    this.Buffs = new List<spells>();
+                    this.BuffIDs = new List<uint>();
+                    //this.Buffs = new List<spells>();
                     return;
                 }
             }
         }
-        public void RefreshBuffs() {
-            this.Buffs.Clear();
-            int temp = 1;
+        //public void RefreshBuffs() {
+        //    this.Buffs.Clear();
+        //    int temp = 1;
+        //    uint i = 0;
+        //    while (temp != 0) {
+        //        temp = Program.wow.ReadInt(this.BuffAddress + (0x08 * i));
+        //        i++;
+        //        if (temp != 0) {
+        //            this.Buffs.Add(Program.db.spells.Find(temp));
+        //        }
+        //    }           
+        //}
+        public void RefreshBuffIDs() {
+            uint temp = 1;
             uint i = 0;
-            while (temp != 0) {
-                temp = Program.wow.ReadInt(this.BuffAddress + (0x08 * i));
+            this.BuffIDs.Clear();
+            while(temp != 0) {
+                temp = Program.wow.ReadUInt(this.BuffAddress + (0x08 * i));
                 i++;
                 if (temp != 0) {
-                    this.Buffs.Add(Program.db.spells.Find(temp));
+                    //this.Buffs.Add(Program.db.spells.Find(temp));
+                    this.BuffIDs.Add(temp);
                 }
-            }           
+            }
         }
 
     }

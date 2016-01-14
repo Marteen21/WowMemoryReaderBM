@@ -95,24 +95,65 @@ namespace WowMemoryReaderBM {
         }
         public static void PrintBuffs(GameObject go) {
             Console.WriteLine("TOP KEK");
-            foreach(spells s in go.Buffs) {
-                Console.WriteLine(s.Name + "  " + s.AuraDescription);
+            foreach (uint s in go.BuffIDs) {
+                Console.WriteLine(s + "  " + s);
             }
 
         }
 
         public static void PrintPointers(GameObject go) {
-            uint goal=0x2d976620;
+            Console.Clear();
+            Console.WriteLine("0x{0:X}",go.BaseAddress);
+            uint goal=0x2cac92b8;
             uint goal2 = 0x25976710;
             uint goal3 = 0x2597683c;
             uint temp = 0;
-            for(int i=0;i<10000;i++) {
+            for (int i = 0; i < 10000; i++) {
                 temp = Program.wow.ReadUInt(go.BaseAddress + (uint)(i));
-                //if (temp > goal-0x1000 && temp<goal+0x1000) {
+                if (temp > goal - 0x1000 && temp < goal) {
+                    Console.WriteLine(String.Format("0x{0:X}", i) + "    " + String.Format("0x{0:X}", temp));
+                }
+            
+                //if (temp != 0) {
                 //    Console.WriteLine(String.Format("0x{0:X}", i) + "    " + String.Format("0x{0:X}", temp));
                 //}
-                if (temp != 0) {
-                    Console.WriteLine(String.Format("0x{0:X}", i) + "    " + String.Format("0x{0:X}", temp));
+            }
+        }
+        public static void PrintBuffPointers() {
+            Console.Clear();
+            uint baseaddr1 =0x0bba8220;
+            uint baseaddr2 =0x0bfcbd00;
+
+            uint goal2 = 0x0bfcb6a0;
+            uint goal1 = 0x0bba6ea0;
+            Console.WriteLine((goal2 - baseaddr2) + " " + (goal1 - baseaddr1));
+            uint temp1 = 0;
+            uint temp2 = 0;
+            for (int i = 0; i < 10000; i++) {
+                temp1 = Program.wow.ReadUInt(baseaddr1 + (uint)(i));
+                temp2 = Program.wow.ReadUInt(baseaddr2 + (uint)(i));
+                if ((temp1 > goal1 - 0x1000 && temp1 < goal1) || (temp2 > goal2 - 0x1000 && temp2 < goal2)) {
+                    Console.WriteLine(String.Format("0x{0:X}", i).PadRight(30) + String.Format("0x{0:X}", (goal1-temp1)-(goal2- temp2)).PadRight(30) );
+                }
+            }
+        }
+        public static void TopKek(GameObject go1, GameObject go2) {
+            uint temp1, temp2;
+            for (int i = 0; i < 10000; i++) {
+                temp1 = Program.wow.ReadUInt(go1.BaseAddress + (uint)(i));
+                temp2 = Program.wow.ReadUInt(go2.BaseAddress + (uint)(i));
+                if (go1.BuffAddress-temp1==go2.BuffAddress-temp2) {
+                    Console.WriteLine(String.Format("Pointer: 0x{0:X}", i).PadRight(30)+String.Format("Offset: 0x{0:X}",go1.BuffAddress- temp1));
+                }
+            }
+        }
+        public static void TopKek2(GameObject go1, GameObject go2) {
+            uint temp1, temp2;
+            for (int i = 0; i < 10000; i++) {
+                temp1 = Program.wow.ReadUInt(go1.ObjectStorageAddress + (uint)(i));
+                temp2 = Program.wow.ReadUInt(go2.ObjectStorageAddress + (uint)(i));
+                if (go1.BuffAddress - temp1 == go2.BuffAddress - temp2) {
+                    Console.WriteLine(String.Format("Pointer: 0x{0:X}", i).PadRight(30) + String.Format("Offset: 0x{0:X}", go1.BuffAddress - temp1));
                 }
             }
         }

@@ -7,6 +7,7 @@ using Magic;
 using WowMemoryReaderBM.Objects;
 using WowMemoryReaderBM.Constants;
 using WowMemoryReaderBM.Database;
+using WowMemoryReaderBM.Bots;
 namespace WowMemoryReaderBM {
     class Program {
         const string PROCESS_WINDOW_TITLE = "World of Warcraft";
@@ -21,7 +22,7 @@ namespace WowMemoryReaderBM {
             //Open the proccess
             wow = new BlackMagic();
             wow.OpenProcessAndThread(SProcess.GetProcessFromWindowTitle(PROCESS_WINDOW_TITLE));
-            db = new wowDBEntities();
+            //db = new wowDBEntities();
             //Setup Object Manager and First object base address
             ObjMgrAddr = wow.ReadUInt(wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Offsets.ObjectManager.CurMgrPointer)+ (uint)Offsets.ObjectManager.CurMgrOffset);
             FirstObject = new GameObject(wow.ReadUInt(ObjMgrAddr+(uint)Offsets.ObjectManager.FirstObject));
@@ -33,28 +34,47 @@ namespace WowMemoryReaderBM {
             //Extractor.PrintGlobals();
             //Extractor.PrintStorageGear(TargetObject);
             Extractor.PrintGameObjectData(TargetObject);
-            Extractor.PrintStorageGear(TargetObject);
-            Extractor.PrintPointers(TargetObject);
-            System.Timers.Timer aTimer = new System.Timers.Timer();
-            aTimer.Interval = 2000;
-            aTimer.Elapsed += OnTimedEvent;
-            aTimer.AutoReset = true;
-            db.Configuration.AutoDetectChangesEnabled = false;
+            //Extractor.PrintStorageGear(TargetObject);
+            //Extractor.PrintPointers(TargetObject);
+            //System.Timers.Timer aTimer = new System.Timers.Timer();
+            //aTimer.Interval = 500;
+            //aTimer.Elapsed += OnTimedEvent;
+            //aTimer.AutoReset = true;
+            ////aTimer.Enabled = true;
+            ////db.Configuration.AutoDetectChangesEnabled = false;
+            GameObject kosz1 = new GameObject(0x10C0000017e2f3f);
+            GameObject kosz2 = new GameObject(0x10C000001844c82);
+            if (TargetObject.BuffAddress > 0x1000) {
+                TargetObject.RefreshBuffIDs();
+                Extractor.PrintBuffs(TargetObject);
+            }
+            else {
+                Console.WriteLine("COULDNT FIND BUFFS :(");
+            }
 
-            //TargetObject.RefreshBuffs();
-           // Extractor.PrintBuffs(TargetObject);
-            Extractor.PrintStorageDescriptors(TargetObject);
-            Console.WriteLine("TOP FUCKING KEK");
+            //Extractor.PrintStorageDescriptors(TargetObject);
+            ////Console.WriteLine("TOP FUCKING KEK");
+            //////Extractor.PrintBuffPointers();
+            //Extractor.TopKek(kosz1, kosz2);
+            //Extractor.TopKek2(kosz1, kosz2);
             Console.ReadLine();
 
 
         }
         private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-            TargetObject.RefreshBuffs();
-            Extractor.PrintBuffs(TargetObject);
+            TargetObject.RefreshBuffIDs();
+            uint SpellPending = wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Offsets.Globals.SpellIsPending);
+            if ((!TargetObject.BuffIDs.Exists(x => x == 5782)) && SpellPending==0) {
+                Console.WriteLine("Casting Fear");
+                SendKeys.Send(VirtualKeys.WK_KEY_F);
+            }
         }
-        
+        private static void OnTimedEvent2(Object source, System.Timers.ElapsedEventArgs e) {
+            //Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Extractor.PrintGlobals();
+
+        }
+
     }
 }

@@ -47,6 +47,7 @@ namespace WowMemoryReaderBM.Constants {
 
         }
         internal enum Globals : uint {
+            CooldPown = 0xACD714,
             PlayerName = 0x9BE820,
             CurrentRealm = 0x9BE9AE,
             CurrentTargetGUID = 0xAD7448,
