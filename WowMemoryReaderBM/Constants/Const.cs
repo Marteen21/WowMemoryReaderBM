@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WowMemoryReaderBM.Constants {
-    class Const {
+    public class Const {
         internal enum ObjectManager : uint {
             CurMgrPointer = 0x9BE7E0,
             CurMgrOffset = 0x463C,
@@ -15,7 +15,7 @@ namespace WowMemoryReaderBM.Constants {
             LocalGUID = 0x30
         }
         internal enum descriptors : uint {
-            Class = 0x45,
+            Class8 = 0x55,
             Level = 0xB0,
             Health = 0x58,
             MaxHealth = 0x70,
@@ -23,6 +23,7 @@ namespace WowMemoryReaderBM.Constants {
             MaxMana = 0x74,
             TargetGuid64 = 0x40,
             Agility = 0x130,
+            Class2 = 0x2D0,
 
         }
         internal enum gear : uint { //from storageaddress

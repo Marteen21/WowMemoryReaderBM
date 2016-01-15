@@ -22,6 +22,10 @@ namespace WowMemoryReaderBM {
                     if (enumValue.ToString().Contains("64")) {
                         Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("0x{0:X}", Program.wow.ReadUInt64(go.DescriptorArrayAddress + (uint)enumValue)));
                     }
+                    else if (enumValue.ToString().Contains("8")){
+                        byte asd = Program.wow.ReadByte(go.DescriptorArrayAddress + (uint)enumValue);
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + ((int)asd).ToString().PadRight(paddistance) + "0x{0:X}",(go.DescriptorArrayAddress + (uint)enumValue));
+                    }
                     else {
                         Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("{0}", Program.wow.ReadUInt(go.DescriptorArrayAddress + (uint)enumValue)));
                     }

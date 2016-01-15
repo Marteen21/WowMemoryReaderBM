@@ -8,6 +8,8 @@ using WowMemoryReaderBM.Objects;
 using WowMemoryReaderBM.Constants;
 //using WowMemoryReaderBM.Database;
 using WowMemoryReaderBM.Bots;
+using WowMemoryReaderBM.Models;
+
 namespace WowMemoryReaderBM {
     class Program {
         const string PROCESS_WINDOW_TITLE = "World of Warcraft";
@@ -15,7 +17,6 @@ namespace WowMemoryReaderBM {
         public static GameObject FirstObject;
         public static GameObject TargetObject;
         private static uint ObjMgrAddr;
-        
 
         static void Main(string[] args) {
             //Open the proccess
@@ -29,30 +30,37 @@ namespace WowMemoryReaderBM {
             //TargetObject = new GameObject(CurrTargetGUID);
             Extractor.PrintGameObjectData(TargetObject);
 
-            //System.Timers.Timer aTimer = new System.Timers.Timer();
-            //aTimer.Interval = 500;
-            //aTimer.Elapsed += OnTimedEvent;
-            //aTimer.AutoReset = true;
+            System.Timers.Timer aTimer = new System.Timers.Timer();
+            aTimer.Interval = 250;
+            aTimer.Elapsed += OnTimedEvent;
+            aTimer.AutoReset = true;
             //aTimer.Enabled = true;
+            UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+            TargetObject = new GameObject(CurrTargetGUID);
+            Extractor.PrintGlobals();
 
 
             while (true) {
-                UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
-                TargetObject = new GameObject(CurrTargetGUID);
-                Extractor.PrintGameObjectData(TargetObject);
-                TargetObject.RefreshBuffIDs();
-                Extractor.PrintBuffs(TargetObject);
+                CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+                if (CurrTargetGUID != 0) {
+                    TargetObject = new GameObject(CurrTargetGUID);
+                    Extractor.PrintGameObjectData(TargetObject);
+                    TargetObject.RefreshBuffIDs();
+                    Extractor.PrintStorageDescriptors(TargetObject);
+                    Extractor.PrintBuffs(TargetObject);
+                }
+                else {
+                    Console.WriteLine("No target");
+                }
                 Console.ReadLine();
             }
         }
         #region TimerInterrupts
         private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
             TargetObject.RefreshBuffIDs();
-            uint SpellPending = wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.SpellIsPending);
-            if ((!TargetObject.BuffIDs.Exists(x => x == 5782)) && SpellPending==0) {
-                Console.WriteLine("Casting Fear");
-                SendKeys.Send((int)Const.WindowsVirtualKey.K_F);
-            }
+            WarlockDPS.Corruption.ReCast(TargetObject);
+            WarlockDPS.BaneofAgony.ReCast(TargetObject);
+            WarlockDPS.UnstableAffliction.ReCast(TargetObject);
         }
         private static void OnTimedEvent2(Object source, System.Timers.ElapsedEventArgs e) {
             //Console.Clear();

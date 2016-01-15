@@ -7,7 +7,7 @@ using WowMemoryReaderBM.Constants;
 //using WowMemoryReaderBM.Database;
 
 namespace WowMemoryReaderBM.Objects {
-    class GameObject {
+    public class GameObject {
         private uint baseAddress;
         private UInt64 guid;
         private uint descriptorArrayAddress;
