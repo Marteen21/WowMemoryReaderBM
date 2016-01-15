@@ -14,6 +14,16 @@ namespace WowMemoryReaderBM.Constants {
             FirstObject = 0xC0,
             LocalGUID = 0x30
         }
+        internal enum Movement {
+            Pointer = 0x100,
+            Offset = 0x38,
+            Mask = 0x100000,
+        }
+        internal enum movflags : uint {
+            IsMoving8 = 0x00,
+            IsSwimming8 = 0x00,
+        }
+
         internal enum descriptors : uint {
             Class8 = 0x55,
             Level = 0xB0,
@@ -533,7 +543,7 @@ namespace WowMemoryReaderBM.Constants {
             VK_LAUNCH_APP2 = 0xB7,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ';:' key")]
-            VK_OEM_1 = 0xBA,
+            K_É = 0xBA,
 
             [Description("For any country/region, the '+' key")]
             VK_OEM_PLUS = 0xBB,
@@ -548,22 +558,22 @@ namespace WowMemoryReaderBM.Constants {
             VK_OEM_PERIOD = 0xBE,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '/?' key")]
-            VK_OEM_2 = 0xBF,
+            K_Ü = 0xBF,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '`~' key")]
-            VK_OEM_3 = 0xC0,
+            K_Ö = 0xC0,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '[{' key")]
-            VK_OEM_4 = 0xDB,
+            K_Ő = 0xDB,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the '\\|' key")]
-            VK_OEM_5 = 0xDC,
+            K_Ű = 0xDC,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the ']}' key")]
-            VK_OEM_6 = 0xDD,
+            K_Ú = 0xDD,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard. For the US standard keyboard, the 'single-quote/double-quote' key")]
-            VK_OEM_7 = 0xDE,
+            K_Á = 0xDE,
 
             [Description("Used for miscellaneous characters; it can vary by keyboard.")]
             VK_OEM_8 = 0xDF,

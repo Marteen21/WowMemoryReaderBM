@@ -10,7 +10,7 @@ using WowMemoryReaderBM.Objects;
 namespace WowMemoryReaderBM.Models {
     public class Spell {
         uint id;
-        int keybind;
+        Const.WindowsVirtualKey keybind;
        //Bela
         public uint ID
         {
@@ -30,12 +30,12 @@ namespace WowMemoryReaderBM.Models {
         }
         public Spell(uint i, Const.WindowsVirtualKey kb) {
             this.ID = i;
-            this.keybind = (int)kb;
+            this.keybind = kb;
         }
         public void SendCast() {
             SendKeys.Send(this.keybind);
         }
-        public bool ReCast(GameObject go) {
+        public virtual bool ReCast(GameObject go) {
             uint SpellPending = Program.wow.ReadUInt((uint)Program.wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.SpellIsPending);
             if (!go.HasBuff(this.ID) && SpellPending==0) {
                 this.SendCast();

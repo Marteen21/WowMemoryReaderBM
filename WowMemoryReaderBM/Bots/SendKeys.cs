@@ -15,10 +15,10 @@ namespace WowMemoryReaderBM.Bots {
         private const Int32 WM_KEYDOWN = 0x0100;
         private const Int32 WM_KEYUP = 0x0101;
 
-        public static void Send(int Key) {
+        public static void Send(Constants.Const.WindowsVirtualKey Key) {
             IntPtr Handle = FindWindow(null, "World of Warcraft");
-            PostMessage(Handle, WM_KEYDOWN, Key, 0);
-            PostMessage(Handle, WM_KEYUP, Key, 0);
+            PostMessage(Handle, WM_KEYDOWN,(int)Key, 0);
+            PostMessage(Handle, WM_KEYUP, (int)Key, 0);
         }
 
         

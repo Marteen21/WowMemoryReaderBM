@@ -13,6 +13,10 @@ namespace WowMemoryReaderBM.Objects {
         private uint descriptorArrayAddress;
         private uint buffArrayAddress;
         private uint buffOffsetArrayAddress;
+        private bool isMoving=false;
+        private uint movementArrayAddress;
+        private uint healthpercent;
+        private uint manapercent;
         private List<uint> buffIDs;
         #region provertys
         public uint BaseAddress {
@@ -82,6 +86,58 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
+        public uint MovementArrayAddress
+        {
+            get
+            {
+                return movementArrayAddress;
+            }
+
+            set
+            {
+                movementArrayAddress = value;
+            }
+        }
+
+        public bool IsMoving
+        {
+            get
+            {
+                return isMoving;
+            }
+
+            set
+            {
+                isMoving = value;
+            }
+        }
+
+        public uint Manapercent
+        {
+            get
+            {
+                return manapercent;
+            }
+
+            set
+            {
+                manapercent = value;
+            }
+        }
+
+        public uint Healthpercent
+        {
+            get
+            {
+                return healthpercent;
+            }
+
+            set
+            {
+                healthpercent = value;
+            }
+        }
+
 
         #endregion
         public GameObject() {
@@ -105,6 +161,7 @@ namespace WowMemoryReaderBM.Objects {
                 this.DescriptorArrayAddress = 0;
                 this.BuffArrayAddress = 0;
                 this.BuffOffsetArrayAddress = 0;
+                this.MovementArrayAddress = 0;
                 this.BuffIDs = new List<uint>();
                 return;
             }
@@ -119,6 +176,7 @@ namespace WowMemoryReaderBM.Objects {
                             this.DescriptorArrayAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
                             this.BuffArrayAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
                             this.BuffOffsetArrayAddress = this.BaseAddress + 0xe98;
+                            this.MovementArrayAddress = Program.wow.ReadUInt(this.BaseAddress + (uint)Const.Movement.Pointer)+(uint)Const.Movement.Offset;
                             this.BuffIDs = new List<uint>();
                             return;
                         }
@@ -140,24 +198,33 @@ namespace WowMemoryReaderBM.Objects {
             uint temp = 1;
             uint i = 0;
             this.BuffIDs.Clear();
-            if (this.BuffArrayAddress > 0x400000) {
-                while (temp != 0) {
-                    temp = Program.wow.ReadUInt(this.BuffArrayAddress + (0x08 * i));
-                    i++;
-                    if (temp != 0) {
-                        this.BuffIDs.Add(temp);
-                    }
-                }
+            this.IsMoving = (Program.wow.ReadByte(this.MovementArrayAddress)!=0x00);
+            uint addr = 0;
+            if(Program.wow.ReadUInt(this.BuffOffsetArrayAddress)!=0) {
+                addr = this.BuffOffsetArrayAddress;
             }
             else {
-                while (temp != 0) {
-                    temp = Program.wow.ReadUInt(this.buffOffsetArrayAddress + (0x08 * i));
-                    i++;
-                    if (temp != 0) {
-                        this.BuffIDs.Add(temp);
-                    }
+                addr = this.BuffArrayAddress;
+            }
+            while (temp != 0) {
+                temp = Program.wow.ReadUInt(addr + (0x08 * i));
+                i++;
+                if (temp != 0) {
+                    this.BuffIDs.Add(temp);
                 }
             }
+        }
+        public void Refresh() {
+            this.RefreshHPMana();
+            this.RefreshBuffIDs();
+        }
+        public void RefreshHPMana() {
+            uint hp =Program.wow.ReadUInt(this.DescriptorArrayAddress + (uint)Const.descriptors.Health);
+            uint hpmax = Program.wow.ReadUInt(this.DescriptorArrayAddress + (uint)Const.descriptors.MaxHealth);
+            uint mana = Program.wow.ReadUInt(this.DescriptorArrayAddress + (uint)Const.descriptors.Mana);
+            uint manamax = Program.wow.ReadUInt(this.DescriptorArrayAddress + (uint)Const.descriptors.MaxMana);
+            this.Manapercent = ((100*mana) / manamax);
+            this.Healthpercent = ((100 * hp) / hpmax);
         }
         public bool HasBuff(uint buffid) {
             foreach(uint bid in this.BuffIDs) {
