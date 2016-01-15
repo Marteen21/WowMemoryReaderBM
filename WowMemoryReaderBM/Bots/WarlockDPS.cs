@@ -10,6 +10,8 @@ namespace WowMemoryReaderBM.Bots {
         private static Spell Corruption = new Spell(172);
         private static Spell UnstableAffliction = new Spell(301088);
         private static Spell Haunt = new Spell(48181);
+        private static Curse CurseoftheElements = new Curse(1490);
+        
         
     }
 }

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WowMemoryReaderBM.Models {
-    class Unit {
+    class DoT : Spell {
+        public DoT(uint i) : base(i) {
 
+        }
     }
 }

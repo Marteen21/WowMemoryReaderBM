@@ -81,6 +81,7 @@
     <Compile Include="Constants\Const.cs" />
     <Compile Include="Extractor.cs" />
     <Compile Include="Models\Curse.cs" />
+    <Compile Include="Models\DoT.cs" />
     <Compile Include="Models\Spell.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Objects\GameObject.cs" />
