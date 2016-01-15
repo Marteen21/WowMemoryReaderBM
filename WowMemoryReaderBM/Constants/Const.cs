@@ -62,6 +62,7 @@ namespace WowMemoryReaderBM.Constants {
             CooldPown = 0xACD714,
             PlayerName = 0x9BE820,
             CurrentRealm = 0x9BE9AE,
+            PlayerGUID = 0x9BE818,
             CurrentTargetGUID = 0xAD7448,
             LastTargetGUID = 0xAD7450,
             FocusTargetGUID = 0xAD7468,

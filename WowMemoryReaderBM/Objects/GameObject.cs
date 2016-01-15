@@ -17,6 +17,7 @@ namespace WowMemoryReaderBM.Objects {
         private uint movementArrayAddress;
         private uint healthpercent;
         private uint manapercent;
+        private uint wowclass;
         private List<uint> buffIDs;
         #region provertys
         public uint BaseAddress {
@@ -138,6 +139,19 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
+        public uint Wowclass
+        {
+            get
+            {
+                return wowclass;
+            }
+
+            set
+            {
+                wowclass = value;
+            }
+        }
+
 
         #endregion
         public GameObject() {
@@ -200,7 +214,13 @@ namespace WowMemoryReaderBM.Objects {
             this.BuffIDs.Clear();
             this.IsMoving = (Program.wow.ReadByte(this.MovementArrayAddress)!=0x00);
             uint addr = 0;
-            if(Program.wow.ReadUInt(this.BuffOffsetArrayAddress)!=0) {
+            //if(Program.wow.ReadUInt(this.BuffOffsetArrayAddress)!=0) {
+            //    addr = this.BuffOffsetArrayAddress;
+            //}
+            //else {
+            //    addr = this.BuffArrayAddress;
+            //}
+            if (this.BuffArrayAddress<(uint)Program.wow.MainModule.BaseAddress) {
                 addr = this.BuffOffsetArrayAddress;
             }
             else {

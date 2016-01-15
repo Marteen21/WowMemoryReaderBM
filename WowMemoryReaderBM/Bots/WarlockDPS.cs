@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using WowMemoryReaderBM.Constants;
 using WowMemoryReaderBM.Models;
+using WowMemoryReaderBM.Objects;
 
 namespace WowMemoryReaderBM.Bots {
     public class WarlockDPS {
-        private static DoT corruption = new DoT(172,Const.WindowsVirtualKey.K_5);
+        private static DoT corruption = new DoT(172, Const.WindowsVirtualKey.K_5);
         private static DoT unstableAffliction = new DoT(30108, Const.WindowsVirtualKey.K_7);
-        private static DoT haunt = new DoT(48181,Const.WindowsVirtualKey.K_6);
+        private static DoT haunt = new DoT(48181, Const.WindowsVirtualKey.K_6);
         private static DoT baneofAgony = new DoT(980, Const.WindowsVirtualKey.K_8);
         private static Spell shadowTrance = new Spell(17941, Const.WindowsVirtualKey.K_9);
         private static DoT drainLife = new DoT(689, Const.WindowsVirtualKey.K_Ö);
@@ -18,7 +19,7 @@ namespace WowMemoryReaderBM.Bots {
         private static Spell fellFlame = new Spell(77799, Const.WindowsVirtualKey.K_Ő);
         private static Curse curseoftheElements = new Curse(1490, Const.WindowsVirtualKey.K_Á);
         private static Spell lifeTap = new Spell(1454, Const.WindowsVirtualKey.K_T);
-
+        #region provertys
         internal static DoT Corruption
         {
             get
@@ -146,6 +147,31 @@ namespace WowMemoryReaderBM.Bots {
             set
             {
                 lifeTap = value;
+            }
+        }
+        #endregion
+        public static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e) {
+            UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+            Program.PlayerObject.Refresh();
+            if (Program.PlayerObject.Healthpercent >= 80 && Program.PlayerObject.Manapercent <= 50) {
+                WarlockDPS.LifeTap.SendCast();
+            }
+            if (CurrTargetGUID != 0) {
+                Program.TargetObject = new GameObject(CurrTargetGUID);
+                Program.TargetObject.RefreshBuffIDs();
+                if (!WarlockDPS.Corruption.ReCast(Program.TargetObject) && !WarlockDPS.BaneofAgony.ReCast(Program.TargetObject) && !WarlockDPS.ShadowTrance.IfCast(Program.PlayerObject)) {
+                    if (!Program.PlayerObject.IsMoving) {
+                        if (!WarlockDPS.UnstableAffliction.ReCast(Program.TargetObject) && !WarlockDPS.Haunt.ReCast(Program.TargetObject)) {
+                            WarlockDPS.DrainLife.ReCast(Program.TargetObject);
+                        }
+                    }
+                    else {
+                        if (!WarlockDPS.CurseoftheElements.ReCast(Program.TargetObject)) {
+                            WarlockDPS.FellFlame.SendCast();
+                        }
+                    }
+
+                }
             }
         }
     }

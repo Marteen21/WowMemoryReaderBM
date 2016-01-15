@@ -33,6 +33,7 @@ namespace WowMemoryReaderBM.Models {
             this.keybind = kb;
         }
         public void SendCast() {
+            //Console.WriteLine("Casting " + this.ID);
             SendKeys.Send(this.keybind);
         }
         public virtual bool ReCast(GameObject go) {

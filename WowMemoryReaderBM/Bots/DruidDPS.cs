@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WowMemoryReaderBM.Constants;
 using WowMemoryReaderBM.Models;
-
-
+using WowMemoryReaderBM.Objects;
 
 namespace WowMemoryReaderBM.Bots {
     class DruidDPS {
@@ -58,6 +57,30 @@ namespace WowMemoryReaderBM.Bots {
 
 
         //}
+        public static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e) {
+            UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+            Program.PlayerObject.Refresh();
+            if (Program.PlayerObject.Healthpercent >= 80 && Program.PlayerObject.Manapercent <= 50) {
+                WarlockDPS.LifeTap.SendCast();
+            }
+            if (CurrTargetGUID != 0) {
+                Program.TargetObject = new GameObject(CurrTargetGUID);
+                Program.TargetObject.RefreshBuffIDs();
+                if (!WarlockDPS.Corruption.ReCast(Program.TargetObject) && !WarlockDPS.BaneofAgony.ReCast(Program.TargetObject) && !WarlockDPS.ShadowTrance.IfCast(Program.PlayerObject)) {
+                    if (!Program.PlayerObject.IsMoving) {
+                        if (!WarlockDPS.UnstableAffliction.ReCast(Program.TargetObject) && !WarlockDPS.Haunt.ReCast(Program.TargetObject)) {
+                            WarlockDPS.DrainLife.ReCast(Program.TargetObject);
+                        }
+                    }
+                    else {
+                        if (!WarlockDPS.CurseoftheElements.ReCast(Program.TargetObject)) {
+                            WarlockDPS.FellFlame.SendCast();
+                        }
+                    }
+
+                }
+            }
+        }
     }
 }
 

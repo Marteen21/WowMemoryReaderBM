@@ -28,72 +28,60 @@ namespace WowMemoryReaderBM {
             FirstObject = new GameObject(wow.ReadUInt(ObjMgrAddr + (uint)Constants.Const.ObjectManager.FirstObject));
             //Read TargetGUID from globals and find in the Object Manager
             //UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Const.Globals.CurrentTargetGUID);
-            //TargetObject = new GameObject(CurrTargetGUID);
-            Extractor.PrintGameObjectData(TargetObject);
+            UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+            PlayerObject = new GameObject(wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.PlayerGUID));
+            TargetObject = new GameObject(CurrTargetGUID);
+            PlayerObject.Wowclass = wow.ReadByte(PlayerObject.DescriptorArrayAddress + (uint)Const.descriptors.Class8);
 
             System.Timers.Timer aTimer = new System.Timers.Timer();
-            aTimer.Interval = 250;
-            aTimer.Elapsed += DpsEvent;
-            //aTimer.Elapsed += PrinterEvent;
+            aTimer.Interval = 100;
+            if (PlayerObject.Wowclass == 9) {
+                Console.WriteLine("Initiate Affliction Warlock DPS BOT v1.0");
+                aTimer.Elapsed += WarlockDPS.DpsEvent;
+            }
+            else if(PlayerObject.Wowclass == 11){
+                Console.WriteLine("Initiate Feral Druid DPS BOT v0.1");
+                aTimer.Elapsed += DruidDPS.DpsEvent;
+            }
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
-            UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
-            PlayerObject = new GameObject(0x010c000001710095); //Oltir GUID
-            TargetObject = new GameObject(CurrTargetGUID);
-            
-            Extractor.PrintGlobals();
-            Extractor.PrintGameObjectData(TargetObject);
             while (true) {
 
                 Console.ReadLine();
             }
         }
         #region TimerInterrupts
-        private static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e) {
-            UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
-            PlayerObject.Refresh();
-            if(PlayerObject.Healthpercent>=80 && PlayerObject.Manapercent <= 50) {
-                WarlockDPS.LifeTap.SendCast();
-            }
-            else {
-                Console.WriteLine(PlayerObject.Manapercent);
-            }
-            if (CurrTargetGUID != 0) {
-                TargetObject = new GameObject(CurrTargetGUID);
-                TargetObject.RefreshBuffIDs();
-                if (!WarlockDPS.Corruption.ReCast(TargetObject) && !WarlockDPS.BaneofAgony.ReCast(TargetObject) && !WarlockDPS.ShadowTrance.IfCast(PlayerObject)) {
-                    if (!PlayerObject.IsMoving) {
-                        if (!WarlockDPS.UnstableAffliction.ReCast(TargetObject) && !WarlockDPS.Haunt.ReCast(TargetObject)) {
-                            WarlockDPS.DrainLife.ReCast(TargetObject);
-                        }
-                    }
-                    else {
-                        if (!WarlockDPS.CurseoftheElements.ReCast(TargetObject)) {
-                            WarlockDPS.FellFlame.SendCast();
-                        }
-                    }
+        //private static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e) {
+        //    UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+        //    PlayerObject.Refresh();
+        //    if(PlayerObject.Healthpercent>=80 && PlayerObject.Manapercent <= 50) {
+        //        WarlockDPS.LifeTap.SendCast();
+        //    }
+        //    if (CurrTargetGUID != 0) {
+        //        TargetObject = new GameObject(CurrTargetGUID);
+        //        TargetObject.RefreshBuffIDs();
+        //        if (!WarlockDPS.Corruption.ReCast(TargetObject) && !WarlockDPS.BaneofAgony.ReCast(TargetObject) && !WarlockDPS.ShadowTrance.IfCast(PlayerObject)) {
+        //            if (!PlayerObject.IsMoving) {
+        //                if (!WarlockDPS.UnstableAffliction.ReCast(TargetObject) && !WarlockDPS.Haunt.ReCast(TargetObject)) {
+        //                    WarlockDPS.DrainLife.ReCast(TargetObject);
+        //                }
+        //            }
+        //            else {
+        //                if (!WarlockDPS.CurseoftheElements.ReCast(TargetObject)) {
+        //                    WarlockDPS.FellFlame.SendCast();
+        //                }
+        //            }
 
-                }
-            }
-            
+        //        }
+//        }
 
-            
-        }
+
+
+//}
         private static void PrinterEvent(Object source, System.Timers.ElapsedEventArgs e) {
-            UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
-            if (CurrTargetGUID != 0) {
-                TargetObject = new GameObject(CurrTargetGUID);
-                Extractor.PrintGameObjectData(TargetObject);
-                TargetObject.RefreshBuffIDs();
-                Extractor.PrintStorageDescriptors(TargetObject);
-                Extractor.PrintBuffs(TargetObject);
-                if (TargetObject.IsMoving) {
-                    Console.WriteLine("MOVING");
-                }
-            }
-            else {
-                Console.WriteLine("No target");
-            }
+            Console.Clear();
+            Extractor.PrintBuffs(PlayerObject);
+
 
         }
         #endregion

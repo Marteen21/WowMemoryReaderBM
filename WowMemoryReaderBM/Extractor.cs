@@ -88,6 +88,7 @@ namespace WowMemoryReaderBM {
                 Console.WriteLine("BaseAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BaseAddress));
                 Console.WriteLine("StorageAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.DescriptorArrayAddress));
                 Console.WriteLine("BuffAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BuffArrayAddress));
+                Console.WriteLine("BuffOffsetAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BuffOffsetArrayAddress));
                 Console.WriteLine("GUID: ".PadRight(paddistance) + String.Format("0x{0:X}", go.Guid));
 
 
