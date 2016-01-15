@@ -14,7 +14,7 @@ namespace WowMemoryReaderBM {
         public static BlackMagic wow;
         public static GameObject FirstObject;
         public static GameObject TargetObject;
-        public static wowDBEntities db;
+        //public static wowDBEntities db;
         private static uint ObjMgrAddr;
         
 
@@ -27,8 +27,8 @@ namespace WowMemoryReaderBM {
             ObjMgrAddr = wow.ReadUInt(wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Offsets.ObjectManager.CurMgrPointer)+ (uint)Offsets.ObjectManager.CurMgrOffset);
             FirstObject = new GameObject(wow.ReadUInt(ObjMgrAddr+(uint)Offsets.ObjectManager.FirstObject));
             //Read TargetGUID from globals and find in the Object Manager
-            UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Offsets.Globals.CurrentTargetGUID);
-            TargetObject = new GameObject(CurrTargetGUID);
+            //UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Offsets.Globals.CurrentTargetGUID);
+            //TargetObject = new GameObject(CurrTargetGUID);
             //Printing data
             //Extractor.PrintStorageDescriptors(TargetObject);
             //Extractor.PrintGlobals();
@@ -42,8 +42,8 @@ namespace WowMemoryReaderBM {
             //aTimer.AutoReset = true;
             ////aTimer.Enabled = true;
             ////db.Configuration.AutoDetectChangesEnabled = false;
-            GameObject kosz1 = new GameObject(0x10C0000017e2f3f);
-            GameObject kosz2 = new GameObject(0x10C000001844c82);
+            //GameObject kosz1 = new GameObject(0x10C0000017e2f3f);
+            //GameObject kosz2 = new GameObject(0x10C000001844c82);
             if (TargetObject.BuffAddress > 0x1000) {
                 TargetObject.RefreshBuffIDs();
                 Extractor.PrintBuffs(TargetObject);
@@ -51,14 +51,23 @@ namespace WowMemoryReaderBM {
             else {
                 Console.WriteLine("COULDNT FIND BUFFS :(");
             }
-
+            while (true) {
+                UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Offsets.Globals.CurrentTargetGUID);
+                TargetObject = new GameObject(CurrTargetGUID);
+                if (TargetObject.BuffAddress > 0x1000) {
+                    TargetObject.RefreshBuffIDs();
+                    Extractor.PrintBuffs(TargetObject);
+                }
+                else {
+                    Console.WriteLine("COULDNT FIND BUFFS :(");
+                }
+                Console.ReadLine();
+            }
             //Extractor.PrintStorageDescriptors(TargetObject);
             ////Console.WriteLine("TOP FUCKING KEK");
             //////Extractor.PrintBuffPointers();
             //Extractor.TopKek(kosz1, kosz2);
             //Extractor.TopKek2(kosz1, kosz2);
-            Console.ReadLine();
-
 
         }
         private static void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
