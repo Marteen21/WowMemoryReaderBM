@@ -10,9 +10,9 @@ namespace WowMemoryReaderBM.Objects {
     class GameObject {
         private uint baseAddress;
         private UInt64 guid;
-        private uint objectStorageAddress;
-        private uint buffAddress;
-        private uint buffAddressMysterious;
+        private uint descriptorArrayAddress;
+        private uint buffArrayAddress;
+        private uint buffOffsetArrayAddress;
         private List<uint> buffIDs;
         #region provertys
         public uint BaseAddress {
@@ -36,23 +36,23 @@ namespace WowMemoryReaderBM.Objects {
         }
 
 
-        public uint ObjectStorageAddress {
+        public uint DescriptorArrayAddress {
             get {
-                return objectStorageAddress;
+                return descriptorArrayAddress;
             }
 
             set {
-                objectStorageAddress = value;
+                descriptorArrayAddress = value;
             }
         }
 
-        public uint BuffAddress {
+        public uint BuffArrayAddress {
             get {
-                return buffAddress;
+                return buffArrayAddress;
             }
 
             set {
-                buffAddress = value;
+                buffArrayAddress = value;
             }
         }
 
@@ -69,16 +69,16 @@ namespace WowMemoryReaderBM.Objects {
             }
         }
 
-        public uint BuffAddressMysterious
+        public uint BuffOffsetArrayAddress
         {
             get
             {
-                return buffAddressMysterious;
+                return buffOffsetArrayAddress;
             }
 
             set
             {
-                buffAddressMysterious = value;
+                buffOffsetArrayAddress = value;
             }
         }
 
@@ -87,26 +87,25 @@ namespace WowMemoryReaderBM.Objects {
         public GameObject() {
             this.BaseAddress = 0;
             this.Guid = 0;
-            this.ObjectStorageAddress = 0;
+            this.DescriptorArrayAddress = 0;
         }
 
         public GameObject(uint baddr) { //Constructor from base Address
             this.BaseAddress = baddr;
-            this.Guid = Program.wow.ReadUInt64(baddr + (uint)Offsets.ObjectManager.LocalGUID);
-            this.ObjectStorageAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
-            this.BuffAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
-            this.BuffAddressMysterious = baddr + 0xe98;
+            this.Guid = Program.wow.ReadUInt64(baddr + (uint)Constants.Const.ObjectManager.LocalGUID);
+            this.DescriptorArrayAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
+            this.BuffArrayAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
+            this.BuffOffsetArrayAddress = baddr + 0xe98;
             this.BuffIDs = new List<uint>();
-            //this.BuffAddress = this.baseAddress + 0xe98;
-            //this.Buffs = new List<spells>();
         }
         public GameObject(UInt64 gid) { //Constructor from GUID
             this.Guid = gid;
             if (gid == 0) {     //If GUID zero, return blank Object
                 this.BaseAddress = 0;
-                this.ObjectStorageAddress = 0;
-                this.BuffAddress = 0;
-                this.BuffAddressMysterious = 0;
+                this.DescriptorArrayAddress = 0;
+                this.BuffArrayAddress = 0;
+                this.BuffOffsetArrayAddress = 0;
+                this.BuffIDs = new List<uint>();
                 return;
             }
             else {  //Iterate through the objects (linked list) from first object till the GUID matches
@@ -114,26 +113,24 @@ namespace WowMemoryReaderBM.Objects {
                 TempObject.BaseAddress = Program.FirstObject.BaseAddress;
                 try {
                     while (TempObject.BaseAddress != 0) {
-                        TempObject.Guid = Program.wow.ReadUInt64(TempObject.BaseAddress + 0x30);
+                        TempObject.Guid = Program.wow.ReadUInt64(TempObject.BaseAddress + (uint)Constants.Const.ObjectManager.LocalGUID);
                         if (TempObject.Guid == this.guid) {
                             this.BaseAddress = TempObject.BaseAddress;
-                            this.ObjectStorageAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
-                            this.BuffAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
-                            //this.BuffAddress = this.baseAddress + 0xe98;
-                            //this.Buffs = new List<spells>();
+                            this.DescriptorArrayAddress = Program.wow.ReadUInt(this.BaseAddress + 0xC) + 0x10;
+                            this.BuffArrayAddress = Program.wow.ReadUInt(this.baseAddress + 0xe9c) + 0x4;
+                            this.BuffOffsetArrayAddress = this.BaseAddress + 0xe98;
                             this.BuffIDs = new List<uint>();
-                            this.BuffAddressMysterious = this.BaseAddress + 0xe98;
                             return;
                         }
                         else {
-                            TempObject.BaseAddress = Program.wow.ReadUInt(TempObject.BaseAddress + (uint)Offsets.ObjectManager.NextObject);
+                            TempObject.BaseAddress = Program.wow.ReadUInt(TempObject.BaseAddress + (uint)Constants.Const.ObjectManager.NextObject);
                         }
                     }
                 }
                 catch {
                     this.BaseAddress = 0;
-                    this.ObjectStorageAddress = 0;
-                    this.buffAddress = 0;
+                    this.DescriptorArrayAddress = 0;
+                    this.buffArrayAddress = 0;
                     this.BuffIDs = new List<uint>();
                     return;
                 }
@@ -143,25 +140,32 @@ namespace WowMemoryReaderBM.Objects {
             uint temp = 1;
             uint i = 0;
             this.BuffIDs.Clear();
-            while(temp != 0) {
-                temp = Program.wow.ReadUInt(this.BuffAddress + (0x08 * i));
-                i++;
-                if (temp != 0) {
-                    this.BuffIDs.Add(temp);
+            if (this.BuffArrayAddress > 0x400000) {
+                while (temp != 0) {
+                    temp = Program.wow.ReadUInt(this.BuffArrayAddress + (0x08 * i));
+                    i++;
+                    if (temp != 0) {
+                        this.BuffIDs.Add(temp);
+                    }
+                }
+            }
+            else {
+                while (temp != 0) {
+                    temp = Program.wow.ReadUInt(this.buffOffsetArrayAddress + (0x08 * i));
+                    i++;
+                    if (temp != 0) {
+                        this.BuffIDs.Add(temp);
+                    }
                 }
             }
         }
-        public void RefreshMystBuffIDs() {
-            uint temp = 1;
-            uint i = 0;
-            this.BuffIDs.Clear();
-            while (temp != 0) {
-                temp = Program.wow.ReadUInt(this.buffAddressMysterious + (0x08 * i));
-                i++;
-                if (temp != 0) {
-                    this.BuffIDs.Add(temp);
+        public bool HasBuff(uint buffid) {
+            foreach(uint bid in this.BuffIDs) {
+                if (bid == buffid) {
+                    return true;
                 }
             }
+            return false;
         }
 
     }

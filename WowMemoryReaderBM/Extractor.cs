@@ -12,18 +12,18 @@ namespace WowMemoryReaderBM {
         public static void PrintStorageDescriptors(GameObject go) {
             Console.WriteLine("//////".PadRight(paddistance/2) + "Storage Printing START" +"//////".PadLeft(paddistance/2));
             try {
-                Console.WriteLine("ObjectStorage: ".PadRight(paddistance) + String.Format("0x{0:X}", go.ObjectStorageAddress) );
+                Console.WriteLine("ObjectStorage: ".PadRight(paddistance) + String.Format("0x{0:X}", go.DescriptorArrayAddress) );
             }
             catch {
                 Console.WriteLine("//////".PadRight(paddistance / 2) + "Storage Printing ERROR" + "//////".PadLeft(paddistance / 2));
             }
-            foreach (Offsets.descriptors enumValue in Enum.GetValues(typeof(Offsets.descriptors))) {
+            foreach (Constants.Const.descriptors enumValue in Enum.GetValues(typeof(Constants.Const.descriptors))) {
                 try {
                     if (enumValue.ToString().Contains("64")) {
-                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("0x{0:X}", Program.wow.ReadUInt64(go.ObjectStorageAddress + (uint)enumValue)));
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("0x{0:X}", Program.wow.ReadUInt64(go.DescriptorArrayAddress + (uint)enumValue)));
                     }
                     else {
-                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("{0}", Program.wow.ReadUInt(go.ObjectStorageAddress + (uint)enumValue)));
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("{0}", Program.wow.ReadUInt(go.DescriptorArrayAddress + (uint)enumValue)));
                     }
 
                 }
@@ -35,10 +35,10 @@ namespace WowMemoryReaderBM {
         }
         public static void PrintGlobals() {
             Console.WriteLine("//////".PadRight(paddistance / 2) + "Global Printing START" + "//////".PadLeft(paddistance / 2));
-            foreach (Offsets.Globals enumValue in Enum.GetValues(typeof(Offsets.Globals))) {
+            foreach (Constants.Const.Globals enumValue in Enum.GetValues(typeof(Constants.Const.Globals))) {
                 try {
                     if (enumValue.ToString().Contains("GUID")) {
-                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("0x{0:X}", Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)enumValue)).PadRight(paddistance) + "0x{0:X}", (uint)Program.wow.MainModule.BaseAddress + enumValue);
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("0x{0:X}", Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)enumValue)).PadRight(paddistance) + "0x{0:X}", (uint)Program.wow.MainModule.BaseAddress + enumValue);
                     }
                     else if (enumValue.ToString().Contains("Name") || enumValue.ToString().Contains("Text")) {
                         Console.WriteLine(enumValue.ToString().PadRight(paddistance) + Program.wow.ReadASCIIString(((uint)Program.wow.MainModule.BaseAddress + (uint)enumValue), 64).PadRight(paddistance) + "0x{0:X}", (uint)Program.wow.MainModule.BaseAddress + enumValue);
@@ -57,18 +57,18 @@ namespace WowMemoryReaderBM {
         public static void PrintStorageGear(GameObject go) {
             Console.WriteLine("//////".PadRight(paddistance / 2) + "Gear Printing START" + "//////".PadLeft(paddistance / 2));
             try {
-                Console.WriteLine("ObjectStorage: ".PadRight(paddistance) + String.Format("0x{0:X}", go.ObjectStorageAddress));
+                Console.WriteLine("ObjectStorage: ".PadRight(paddistance) + String.Format("0x{0:X}", go.DescriptorArrayAddress));
             }
             catch {
                 Console.WriteLine("//////".PadRight(paddistance / 2) + "Gear Printing ERROR" + "//////".PadLeft(paddistance / 2));
             }
-            foreach (Offsets.gear enumValue in Enum.GetValues(typeof(Offsets.gear))) {
+            foreach (Constants.Const.gear enumValue in Enum.GetValues(typeof(Constants.Const.gear))) {
                 try {
                     if (enumValue.ToString().Contains("64")) {
-                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("0x{0:X}", Program.wow.ReadUInt64(go.ObjectStorageAddress + (uint)enumValue)));
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("0x{0:X}", Program.wow.ReadUInt64(go.DescriptorArrayAddress + (uint)enumValue)));
                     }
                     else {
-                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + String.Format("{0}", Program.wow.ReadUInt(go.ObjectStorageAddress + (uint)enumValue)));
+                        Console.WriteLine(enumValue.ToString().PadRight(paddistance) + string.Format("{0}", Program.wow.ReadUInt(go.DescriptorArrayAddress + (uint)enumValue)));
                     }
 
                 }
@@ -82,8 +82,8 @@ namespace WowMemoryReaderBM {
             Console.WriteLine("//////".PadRight(paddistance / 2) + "OBJECT Printing START" + "//////".PadLeft(paddistance / 2));
             try {
                 Console.WriteLine("BaseAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BaseAddress));
-                Console.WriteLine("StorageAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.ObjectStorageAddress));
-                Console.WriteLine("BuffAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BuffAddress));
+                Console.WriteLine("StorageAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.DescriptorArrayAddress));
+                Console.WriteLine("BuffAddress: ".PadRight(paddistance) + String.Format("0x{0:X}", go.BuffArrayAddress));
                 Console.WriteLine("GUID: ".PadRight(paddistance) + String.Format("0x{0:X}", go.Guid));
                 
 
@@ -141,18 +141,18 @@ namespace WowMemoryReaderBM {
             for (int i = 0; i < 10000; i++) {
                 temp1 = Program.wow.ReadUInt(go1.BaseAddress + (uint)(i));
                 temp2 = Program.wow.ReadUInt(go2.BaseAddress + (uint)(i));
-                if (go1.BuffAddress-temp1==go2.BuffAddress-temp2) {
-                    Console.WriteLine(String.Format("Pointer: 0x{0:X}", i).PadRight(30)+String.Format("Offset: 0x{0:X}",go1.BuffAddress- temp1));
+                if (go1.BuffArrayAddress-temp1==go2.BuffArrayAddress-temp2) {
+                    Console.WriteLine(String.Format("Pointer: 0x{0:X}", i).PadRight(30)+String.Format("Offset: 0x{0:X}",go1.BuffArrayAddress- temp1));
                 }
             }
         }
         public static void TopKek2(GameObject go1, GameObject go2) {
             uint temp1, temp2;
             for (int i = 0; i < 10000; i++) {
-                temp1 = Program.wow.ReadUInt(go1.ObjectStorageAddress + (uint)(i));
-                temp2 = Program.wow.ReadUInt(go2.ObjectStorageAddress + (uint)(i));
-                if (go1.BuffAddress - temp1 == go2.BuffAddress - temp2) {
-                    Console.WriteLine(String.Format("Pointer: 0x{0:X}", i).PadRight(30) + String.Format("Offset: 0x{0:X}", go1.BuffAddress - temp1));
+                temp1 = Program.wow.ReadUInt(go1.DescriptorArrayAddress + (uint)(i));
+                temp2 = Program.wow.ReadUInt(go2.DescriptorArrayAddress + (uint)(i));
+                if (go1.BuffArrayAddress - temp1 == go2.BuffArrayAddress - temp2) {
+                    Console.WriteLine(String.Format("Pointer: 0x{0:X}", i).PadRight(30) + String.Format("Offset: 0x{0:X}", go1.BuffArrayAddress - temp1));
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace WowMemoryReaderBM {
             uint temp = 0;
             Console.WriteLine("Storage");
             for (int i = 0; i < 10000; i++) {
-                temp = Program.wow.ReadUInt(go.ObjectStorageAddress + (uint)(i));
+                temp = Program.wow.ReadUInt(go.DescriptorArrayAddress + (uint)(i));
                 if (temp > 0x1c000000 && temp < 0x1d000000) {
                     Console.WriteLine(String.Format("0x{0:X}", i) + "    " + String.Format("0x{0:X}", temp));
                 }

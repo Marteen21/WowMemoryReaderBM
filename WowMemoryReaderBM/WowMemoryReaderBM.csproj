@@ -78,9 +78,10 @@
     <Compile Include="Bots\DruidDPS.cs" />
     <Compile Include="Bots\WarlockDPS.cs" />
     <Compile Include="Constants\Masker.cs" />
-    <Compile Include="Constants\Offsets.cs" />
-    <Compile Include="Constants\VirtualKeys.cs" />
+    <Compile Include="Constants\Const.cs" />
     <Compile Include="Extractor.cs" />
+    <Compile Include="Models\Curse.cs" />
+    <Compile Include="Models\Spell.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Program.cs" />
