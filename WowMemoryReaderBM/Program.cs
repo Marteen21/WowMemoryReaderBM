@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Magic;
 using WowMemoryReaderBM.Objects;
 using WowMemoryReaderBM.Constants;
-using WowMemoryReaderBM.Database;
+//using WowMemoryReaderBM.Database;
 using WowMemoryReaderBM.Bots;
 namespace WowMemoryReaderBM {
     class Program {

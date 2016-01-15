@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WowMemoryReaderBM.Constants;
-using WowMemoryReaderBM.Database;
+//using WowMemoryReaderBM.Database;
 
 namespace WowMemoryReaderBM.Objects {
     class GameObject {

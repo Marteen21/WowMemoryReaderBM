@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WowMemoryReaderBM.Objects;
 using WowMemoryReaderBM.Constants;
-using WowMemoryReaderBM.Database;
+//using WowMemoryReaderBM.Database;
 namespace WowMemoryReaderBM {
     class Extractor {
         private static int paddistance = 30;

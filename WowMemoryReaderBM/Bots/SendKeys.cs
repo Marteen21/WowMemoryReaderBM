@@ -20,5 +20,7 @@ namespace WowMemoryReaderBM.Bots {
             PostMessage(Handle, WM_KEYDOWN, Key, 0);
             PostMessage(Handle, WM_KEYUP, Key, 0);
         }
+
+        
     }
 }
