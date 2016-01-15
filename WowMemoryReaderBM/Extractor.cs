@@ -167,5 +167,6 @@ namespace WowMemoryReaderBM {
             }
         }
     }
+
 }
 

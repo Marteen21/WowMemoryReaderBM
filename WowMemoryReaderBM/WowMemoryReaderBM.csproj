@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bots\DruidDPS.cs" />
     <Compile Include="Bots\WarlockDPS.cs" />
     <Compile Include="Constants\Masker.cs" />
     <Compile Include="Constants\Offsets.cs" />

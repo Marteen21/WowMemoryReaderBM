@@ -34,23 +34,14 @@ namespace WowMemoryReaderBM {
             //Extractor.PrintGlobals();
             //Extractor.PrintStorageGear(TargetObject);
             Extractor.PrintGameObjectData(TargetObject);
-            //Extractor.PrintStorageGear(TargetObject);
-            //Extractor.PrintPointers(TargetObject);
+
             //System.Timers.Timer aTimer = new System.Timers.Timer();
             //aTimer.Interval = 500;
             //aTimer.Elapsed += OnTimedEvent;
             //aTimer.AutoReset = true;
-            ////aTimer.Enabled = true;
-            ////db.Configuration.AutoDetectChangesEnabled = false;
-            //GameObject kosz1 = new GameObject(0x10C0000017e2f3f);
-            //GameObject kosz2 = new GameObject(0x10C000001844c82);
-            //if (TargetObject.BuffAddress > 0x1000) {
-            //    TargetObject.RefreshBuffIDs();
-            //    Extractor.PrintBuffs(TargetObject);
-            //}
-            //else {
-            //    Console.WriteLine("COULDNT FIND BUFFS :(");
-            //}
+            //aTimer.Enabled = true;
+
+
             while (true) {
                 UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Offsets.Globals.CurrentTargetGUID);
                 TargetObject = new GameObject(CurrTargetGUID);
