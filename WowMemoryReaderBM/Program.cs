@@ -24,7 +24,7 @@ namespace WowMemoryReaderBM {
             wow = new BlackMagic();
             wow.OpenProcessAndThread(SProcess.GetProcessFromWindowTitle(PROCESS_WINDOW_TITLE));
             //Setup Object Manager and First object base address
-            ObjMgrAddr = wow.ReadUInt(wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.ObjectManager.CurMgrPointer)+ (uint)Constants.Const.ObjectManager.CurMgrOffset);
+            ObjMgrAddr = wow.ReadUInt(wow.ReadUInt((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.ObjectManager.CurMgrPointer) + (uint)Constants.Const.ObjectManager.CurMgrOffset);
             FirstObject = new GameObject(wow.ReadUInt(ObjMgrAddr + (uint)Constants.Const.ObjectManager.FirstObject));
             //Read TargetGUID from globals and find in the Object Manager
             //UInt64 CurrTargetGUID = wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Const.Globals.CurrentTargetGUID);
@@ -39,15 +39,34 @@ namespace WowMemoryReaderBM {
                 Console.WriteLine("Initiate Affliction Warlock DPS BOT v1.0");
                 aTimer.Elapsed += WarlockDPS.DpsEvent;
             }
-            else if(PlayerObject.Wowclass == 11){
+            else if (PlayerObject.Wowclass == 11) {
                 Console.WriteLine("Initiate Feral Druid DPS BOT v0.1");
                 aTimer.Elapsed += DruidDPS.DpsEvent;
             }
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
             while (true) {
-
-                Console.ReadLine();
+                switch (Console.ReadLine()) {
+                    case "stop":
+                        Console.WriteLine("STOP");
+                        aTimer.Elapsed -= DruidDPS.DpsEvent;
+                        aTimer.Elapsed -= WarlockDPS.DpsEvent;
+                        aTimer.Elapsed -= PrinterEvent;
+                        break;
+                    case "printer":
+                        aTimer.Elapsed += PrinterEvent;
+                        break;
+                    case "start":
+                        if (PlayerObject.Wowclass == 9) {
+                            Console.WriteLine("Initiate Affliction Warlock DPS BOT v1.0");
+                            aTimer.Elapsed += WarlockDPS.DpsEvent;
+                        }
+                        else if (PlayerObject.Wowclass == 11) {
+                            Console.WriteLine("Initiate Feral Druid DPS BOT v0.1");
+                            aTimer.Elapsed += DruidDPS.DpsEvent;
+                        }
+                        break;
+                }
             }
         }
         #region TimerInterrupts
@@ -73,16 +92,24 @@ namespace WowMemoryReaderBM {
         //            }
 
         //        }
-//        }
+        //        }
 
 
 
-//}
+        //}
         private static void PrinterEvent(Object source, System.Timers.ElapsedEventArgs e) {
-            Console.Clear();
-            Extractor.PrintBuffs(PlayerObject);
-
-
+            UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
+            if (CurrTargetGUID != 0) {
+                TargetObject = new GameObject(CurrTargetGUID);
+                TargetObject.RefreshBuffIDs();
+                Extractor.PrintBuffs(TargetObject);
+                if (TargetObject.IsMoving) {
+                    Console.WriteLine("MOVING");
+                }
+            }
+            else {
+                Console.WriteLine("No target");
+            }
         }
         #endregion
 
