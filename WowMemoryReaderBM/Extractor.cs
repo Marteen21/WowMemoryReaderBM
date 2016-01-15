@@ -104,9 +104,8 @@ namespace WowMemoryReaderBM {
         public static void PrintPointers(GameObject go) {
             Console.Clear();
             Console.WriteLine("0x{0:X}",go.BaseAddress);
-            uint goal=0x2cac92b8;
-            uint goal2 = 0x25976710;
-            uint goal3 = 0x2597683c;
+            uint goal = 0x27050128;
+
             uint temp = 0;
             for (int i = 0; i < 10000; i++) {
                 temp = Program.wow.ReadUInt(go.BaseAddress + (uint)(i));

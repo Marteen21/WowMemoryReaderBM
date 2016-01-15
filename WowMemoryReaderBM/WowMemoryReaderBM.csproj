@@ -79,24 +79,6 @@
     <Compile Include="Constants\Masker.cs" />
     <Compile Include="Constants\Offsets.cs" />
     <Compile Include="Constants\VirtualKeys.cs" />
-    <Compile Include="Database\spells.cs">
-      <DependentUpon>wowDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\wowDBModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>wowDBModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\wowDBModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>wowDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\wowDBModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>wowDBModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Extractor.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Objects\GameObject.cs" />
@@ -106,13 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Database\wowDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>wowDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Database\wowDBModel.edmx.diagram">
-      <DependentUpon>wowDBModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -128,19 +103,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Bots\DPS\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database\wowDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>wowDBModel.edmx</DependentUpon>
-      <LastGenOutput>wowDBModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Database\wowDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>wowDBModel.edmx</DependentUpon>
-      <LastGenOutput>wowDBModel.cs</LastGenOutput>
-    </Content>
+    <Folder Include="Database\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
