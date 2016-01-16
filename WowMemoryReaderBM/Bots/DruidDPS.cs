@@ -20,11 +20,19 @@ namespace WowMemoryReaderBM.Bots
         private static DoT shred = new DoT(58180, Const.WindowsVirtualKey.K_1);
         private static Spell catform = new Spell(768);
         private static Spell prowl = new Spell(5215);
+        private static Spell mark = new Spell(79061, Const.WindowsVirtualKey.K_B);
+        
 
         public static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
             UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
             Program.PlayerObject.Refresh();
+
+            if (!Program.PlayerObject.HasBuff(mark.ID))
+            {
+                DruidDPS.mark.SendCast();
+            }
+
             if (CurrTargetGUID != 0)
             {
                 Program.TargetObject = new GameObject(CurrTargetGUID);
@@ -42,7 +50,7 @@ namespace WowMemoryReaderBM.Bots
                         // {
                         DruidDPS.rip.ReCast(Program.TargetObject);
                         // }
-                        if(Program.PlayerObject.Manapercent >= 10)
+                        if(Program.PlayerObject.Manapercent >= 80)  //energykell nem mana
                         {
                             DruidDPS.shred.SendCast();
                         }
@@ -61,47 +69,6 @@ namespace WowMemoryReaderBM.Bots
     }
 }
 
-
-//    FFBuff="Faerie Fire(Feral)";
-//    FFKey=4;
-
-//    chargeKey=0;
-
-
-
-//    // range-ben van e a target 
-//    // a hátát látom e a targetnak 
-//    if(targetEnemy==1){
-//        if(FFBuff=0 && range<30)
-//        {
-//            SendKey(FFkey);
-//        }
-
-//        if (range>8 && range<25)
-//        {
-//            chargeKey
-//        }
-
-//        if(range<melee)
-//        {
-//            if(mangleBuff==0)
-//            {
-//                mangleKey
-//            }
-//            if(rakeBuff==0)
-//            {
-//                rakeKey
-//            }
-//            if(combo=5 && ripBuff==0)
-//            {
-//                ripKey
-//            }
-//            if()           
-
-//        }   
-
-
-//}
 
 //if (Program.PlayerObject.Healthpercent >= 80 && Program.PlayerObject.Manapercent <= 50) {
 //    WarlockDPS.LifeTap.SendCast();

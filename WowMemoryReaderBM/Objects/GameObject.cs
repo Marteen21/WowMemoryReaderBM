@@ -229,7 +229,8 @@ namespace WowMemoryReaderBM.Objects {
             while (temp != 0) {
                 temp = Program.wow.ReadUInt(addr + (0x08 * i));
                 i++;
-                if (temp != 0) {
+                if (temp != 0)
+                {
                     this.BuffIDs.Add(temp);
                 }
             }
