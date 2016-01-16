@@ -16,9 +16,12 @@ namespace WowMemoryReaderBM.Bots
         private static DoT rip = new DoT(1079, Const.WindowsVirtualKey.K_R);
         private static DoT mangle = new DoT(33876, Const.WindowsVirtualKey.K_5);
         private static DoT FF = new DoT(91565, Const.WindowsVirtualKey.K_4);
+        private static DoT pounce = new DoT(9005, Const.WindowsVirtualKey.K_1);
+        private static DoT shred = new DoT(58180, Const.WindowsVirtualKey.K_1);
         private static Spell catform = new Spell(768);
+        private static Spell prowl = new Spell(5215);
 
-       public static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e)
+        public static void DpsEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
             UInt64 CurrTargetGUID = Program.wow.ReadUInt64((uint)Program.wow.MainModule.BaseAddress + (uint)Constants.Const.Globals.CurrentTargetGUID);
             Program.PlayerObject.Refresh();
@@ -30,14 +33,29 @@ namespace WowMemoryReaderBM.Bots
 
                 if (Program.PlayerObject.HasBuff(catform.ID))
                 {
-                    DruidDPS.rake.ReCast(Program.TargetObject);
-                    DruidDPS.mangle.ReCast(Program.TargetObject);
-                    DruidDPS.FF.ReCast(Program.TargetObject);
-                    DruidDPS.rip.ReCast(Program.TargetObject);
+                    if (!Program.PlayerObject.HasBuff(prowl.ID))
+                    {
+                        DruidDPS.rake.ReCast(Program.TargetObject);
+                        DruidDPS.mangle.ReCast(Program.TargetObject);
+                        DruidDPS.FF.ReCast(Program.TargetObject);
+                        // if ((uint)Const.Globals.ComboPoint <= 4)
+                        // {
+                        DruidDPS.rip.ReCast(Program.TargetObject);
+                        // }
+                        if(Program.PlayerObject.Manapercent >= 10)
+                        {
+                            DruidDPS.shred.SendCast();
+                        }
+                    }
+                    else
+                    {
+                        DruidDPS.pounce.SendCast();
+                    }
+
                 }
 
-            }         
-      
+            }
+
         }
 
     }

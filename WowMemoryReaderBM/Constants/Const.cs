@@ -69,7 +69,7 @@ namespace WowMemoryReaderBM.Constants {
             MouseOverGUID = 0xAD7438,
             PetGUID = 0xB43B60,
             FollowGUID = 0x9D61D8,
-            ComboPoint = 0xAD74F1,
+            ComboPoint = 0xAD74F1,//string 00dcf871
             LootWindow = 0xB45230,
             Timestamp = 0x9C0C7C,
             BuildNumber = 0xAB4214,
